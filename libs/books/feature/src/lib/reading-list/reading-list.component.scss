@@ -3,6 +3,11 @@
 :host {
   display: block;
   font-size: 0.75rem;
+  @media only screen and (max-width: 767px) {
+    .paragraph-padding {
+      padding-left: $spacing-med;
+    }
+  }
 }
 .reading-list {
   padding: $spacing-xxs;
@@ -19,6 +24,10 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  @media only screen and (max-width: 767px) {
+    padding-left: $spacing-med;
+  }  
 }
 
 .reading-list-item--cover {
