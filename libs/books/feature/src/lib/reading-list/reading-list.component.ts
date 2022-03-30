@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getReadingList, removeFromReadingList } from '@tmo/books/data-access';
+import { getReadingList, removeFromReadingList, markBookAsFinished } from '@tmo/books/data-access';
 import { ReadingListItem } from '@tmo/shared/models';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tmo-reading-list',
@@ -10,11 +9,23 @@ import { Observable } from 'rxjs';
   styleUrls: ['./reading-list.component.scss']
 })
 export class ReadingListComponent {
-  readingList$: Observable<ReadingListItem[]> =  this.store.select(getReadingList);
+  readingList$ = this.store.select(getReadingList);
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) { }
 
   removeFromReadingList(item: ReadingListItem): void {
     this.store.dispatch(removeFromReadingList({ item }));
+  }
+
+  markBookAsRead(item: ReadingListItem): void {
+    this.store.dispatch(
+        markBookAsFinished({
+          item : {
+            ...item, 
+            finished: true, 
+            finishedDate: new Date().toISOString()
+          }
+        })
+    );
   }
 }
